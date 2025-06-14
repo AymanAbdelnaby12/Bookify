@@ -48,11 +48,45 @@
                 <!--end::Content-->
                  
             </div>
-            
+
         }
         else
         {
-            
+            <div class="py-5 pb-6">
+		<div class="table-responsive">
+			<table class="table table-row-bordered gy-7">
+				<thead>
+					<tr class="fw-bold fs-6 text-gray-800">
+						<th>Name</th>
+						<th>Status</th>
+						<th>Created On</th>
+						<th>Last Updated</th> 
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					 @foreach(var category in Model)
+                     {
+                         <tr>
+                                <td>@category.Name</td>
+                                <td>
+                                        <span class="badge badge-light-@(category.IsDeleted ? "danger" : "success")">
+                                            @(category.IsDeleted ? "Deleted" : "Available")
+                                        </span>
+                                </td> 
+                                <td>@category.CreatedOn </td>
+                                <td>@category.LastUpdatedOn </td>
+                                <td>
+                                    <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary">Edit</a>
+                                    <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-danger btn-active-light-danger">Delete</a>
+                                </td>
+                         </tr>
+
+                     }
+				</tbody>
+			</table>
+		</div>
+    </div>
         }
     </div> 
 </div>
