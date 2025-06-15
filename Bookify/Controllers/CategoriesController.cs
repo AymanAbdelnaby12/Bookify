@@ -1,4 +1,6 @@
-﻿namespace Bookify.Controllers
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Bookify.Controllers
 {
     public class CategoriesController : Controller
     {
@@ -11,7 +13,7 @@
         public IActionResult Index()
         {
             // TODO: Use ViewModel  
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories.AsNoTracking().ToList();
             return View(categories);  
         } 
         public IActionResult Create()
@@ -71,5 +73,24 @@
 
             return RedirectToAction(nameof(Index));
         }
+
+        // This method is used to delete a current category status and revers it
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ToggleStatus(int id)
+        {
+            var category = _context.Categories.Find(id);
+            if (category is null)
+            {
+                return NotFound();
+            }
+            category.IsDeleted = !category.IsDeleted;
+            category.LastUpdatedOn = DateTime.Now;  
+            _context.SaveChanges();
+            return Ok(category.LastUpdatedOn);
+        }
+
+
+
     }
 }
