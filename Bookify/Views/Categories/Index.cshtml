@@ -123,30 +123,59 @@
 @* using AntiForgeryToken security  *@
 @Html.AntiForgeryToken()
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('.js-toggle-status').on('click', function (e) {
-               
+            $(document).on('click', '.js-toggle-status', function (e) {
+                e.preventDefault();
+
                 var btn = $(this);
-                $.post({
-                   url: '/Categories/ToggleStatus/' + btn.data('id'),
 
-                    data: { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() }, 
+                bootbox.confirm({
+                    message: 'Are you sure you want to toggle the status of this category?',
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.post({
+                                url: '/Categories/ToggleStatus/' + btn.data('id'),
+                                data: {
+                                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                                },
+                                success: function (LastUpdatedOn) {
+                                    // Update the last updated time
+                                    btn.closest('tr').find('.js-Updated-On').text(new Date().toLocaleString());
 
-                   success: function(LastUpdatedOn){
-                            // Update the last updated time
-                            btn.closest('tr').find('.js-Updated-On').text(new Date().toLocaleString()); 
-                            // Toggle the status badge
-                       var statusBadge = btn.closest('tr').find('.js-status');
-                          if (statusBadge.hasClass('badge-light-success')) {
-                            statusBadge.removeClass('badge-light-success').addClass('badge-light-danger').text('Deleted');
-                          } else {
-                            statusBadge.removeClass('badge-light-danger').addClass('badge-light-success').text('Available');
-                          }
-
-                   }
+                                    // Toggle the status badge
+                                    var statusBadge = btn.closest('tr').find('.js-status');
+                                    if (statusBadge.hasClass('badge-light-success')) {
+                                        statusBadge
+                                            .removeClass('badge-light-success')
+                                            .addClass('badge-light-danger')
+                                            .text('Deleted');
+                                    } else {
+                                        statusBadge
+                                            .removeClass('badge-light-danger')
+                                            .addClass('badge-light-success')
+                                            .text('Available');
+                                    }
+                                     
+                                },
+                                error: function () {
+                                    bootbox.alert("Something went wrong.");
+                                }
+                            });
+                        }
+                    }
                 });
-
             });
         });
     </script>

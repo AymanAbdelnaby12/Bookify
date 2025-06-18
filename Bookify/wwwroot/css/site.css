@@ -20,3 +20,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*start bootbox*/
+.bootbox-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border:0;
+    z-index: 1;
+    padding: 0.5rem 0.75rem;
+    background-color: transparent; 
+    -webkit-appearance: none; 
+}
