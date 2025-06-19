@@ -167,10 +167,30 @@
                                             .addClass('badge-light-success')
                                             .text('Available');
                                     }
+                                    statusBadge.removeClass('animate__animated animate__flash');
+                                    void statusBadge[0].offsetWidth;
+                                    statusBadge.addClass('animate__animated animate__flash');
+                                    swal.fire({
+                                        title: "Success",
+                                        text: "Category status updated successfully!",
+                                        icon: "success", 
+                                        customClass:{
+                                            confirmButton: 'btn btn-outline  btn-outline-dashed btn-outline-primary- btn-active-light-primary'
+                                        }
+                                    });
+
                                      
                                 },
                                 error: function () {
-                                    bootbox.alert("Something went wrong.");
+                                    
+                                    swal.fire({
+                                        title: "Error",
+                                        text: "An error occurred while updating the category status.",
+                                        icon: "error",
+                                        customClass:{
+                                           confirmButton: 'btn btn-outline  btn-outline-dashed btn-outline-primary- btn-active-light-primary'
+                                        }
+                                    });
                                 }
                             });
                         }

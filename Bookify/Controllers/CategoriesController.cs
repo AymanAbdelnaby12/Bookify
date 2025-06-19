@@ -25,7 +25,7 @@ namespace Bookify.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CategoryFormViewModel model)
-        {
+        { 
             if (!ModelState.IsValid)
             { 
                 return View("Form",model);
@@ -33,6 +33,9 @@ namespace Bookify.Controllers
             var category = new Category { Name = model.Name  };
             _context.Categories.Add(category);
             _context.SaveChanges();
+
+            TempData["Message"] = "Category created successfully"; 
+
 
             return  RedirectToAction(nameof(Index));
         }

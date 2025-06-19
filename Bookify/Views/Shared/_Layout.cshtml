@@ -9,12 +9,14 @@
     <!--end::Fonts-->
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="~/assets/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" /> 
+	<link href="~/lib/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
     <!--end::Global Stylesheets Bundle-->
+    <link href="~/lib/animate.css/animate.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Bookify.styles.css" asp-append-version="true" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 
 </head>
@@ -64,7 +66,9 @@
 			</svg>
 		</span>
 		<!--end::Svg Icon-->
-	</div>
+	</div>   
+		<span id="message" class="d-none">@TempData["Message"]</span>
+	 
 	<!--end::Scrolltop-->
 	<!--begin::Javascript-->
     <script>var hostUrl = "assets/";</script>
@@ -73,7 +77,9 @@
     <script src="~/assets/js/scripts.bundle.js"></script>
     <!--end::Global Javascript Bundle-->
     <script src="~/lib/bootbox.js/bootbox.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+	<script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>

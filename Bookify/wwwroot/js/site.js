@@ -1,4 +1,15 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
 
-// Write your JavaScript code.
+$(document).ready(function () {
+    var message = $("#message").text().trim();
+if (message !== '') {
+    swal.fire({
+        title: "Success",
+        text: "Category status updated successfully!",
+        icon: "success",
+        customClass: {
+            confirmButton: 'btn btn-outline  btn-outline-dashed btn-outline-primary- btn-active-light-primary'
+        }
+    });
+}
+}); 
