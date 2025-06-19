@@ -21,7 +21,8 @@
             Categories
         </h3>
         <div class="card-toolbar"> 
-            <a asp-controller="Categories" asp-action="Create" class="btn btn-sm btn-primary"> 
+            <a href="javascript:;"class="btn btn-sm btn-primary js-render-modal"
+            data-title="Add Category" data-url="/Categories/Create"> 
                 <i class="bi bi-file-plus"></i>
                 Add
             </a>
@@ -123,7 +124,7 @@
 @* using AntiForgeryToken security  *@
 @Html.AntiForgeryToken()
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <partial name="_ValidationScriptsPartial" /> 
     <script>
         $(document).ready(function () {
             $(document).on('click', '.js-toggle-status', function (e) {

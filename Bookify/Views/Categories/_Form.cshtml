@@ -1,0 +1,39 @@
+﻿@model CategoryFormViewModel
+
+@{
+    ViewData["Title"] = $"{(Model.Id > 0 ? "Edit" : "Add")} Category";
+}
+
+<form asp-action="@(Model.Id > 0 ? "Edit" : "Create")"
+       data-ajax="true"
+       data-ajax-method="post"
+       data-ajax-success="Swal.fire({
+          title: 'Success',
+          text: 'Category saved successfully!',
+          icon: 'success',
+          customClass: {
+              confirmButton: 'btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary'
+          }
+      });"
+       data-ajax-failure="Swal.fire({
+          title: 'Error',
+          text: 'An error occurred while saving the category.',
+          icon: 'error',
+          customClass: {
+              confirmButton: 'btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary'
+          }
+      });">
+    @if (Model?.Id > 0)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div class="mb-5">
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" placeholder="Name" asp-for="Name" />
+            <label asp-for="Name"> </label>
+        </div>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <partial name="_ModalFooter" />
+</form>

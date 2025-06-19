@@ -18,8 +18,9 @@ namespace Bookify.Controllers
         } 
         public IActionResult Create()
         {
+
             var model = new CategoryFormViewModel();
-            return View("Form", model);
+            return PartialView("_Form", model);
         }
 
         [HttpPost]
@@ -28,7 +29,7 @@ namespace Bookify.Controllers
         { 
             if (!ModelState.IsValid)
             { 
-                return View("Form",model);
+                return View("_Form",model);
             }
             var category = new Category { Name = model.Name  };
             _context.Categories.Add(category);
@@ -52,7 +53,7 @@ namespace Bookify.Controllers
                 Id = category.Id,
                 Name = category.Name
             }; 
-            return View("Form", viewModel);
+            return View("_Form", viewModel);
         }
 
         // This method is used to handle the form submission for editing a category update category
@@ -62,7 +63,7 @@ namespace Bookify.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Form", model);
+                return View("_Form", model);
             }
             var category = _context.Categories.Find(model.Id);
             if (category is null)
