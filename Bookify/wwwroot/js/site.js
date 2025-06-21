@@ -1,39 +1,71 @@
-﻿
-$(document).ready(function () {
-    var message = $("#Message").text();
-if (message !== '') {
-    swal.fire({
-        title: "Success",
-        text: "Category status updated successfully!",
-        icon: "success",
+﻿var updatedRow;
+
+function showSuccessMessage(message = 'Saved successfully!') {
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: message,
         customClass: {
-            confirmButton: 'btn btn-outline  btn-outline-dashed btn-outline-primary- btn-active-light-primary'
+            confirmButton: "btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary"
         }
     });
+}
+
+function showErrorMessage(message = 'Something went wrong!') {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: message,
+        customClass: {
+            confirmButton: "btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary"
+        }
+    });
+}
+
+function onModalSuccess(item) {
+    showSuccessMessage();
+    $('#Modal').modal('hide');
+
+    if (updatedRow === undefined) {
+        $('tbody').append(item);
+    } else {
+        $(updatedRow).replaceWith(item);
+        updatedRow = undefined;
     }
-    //handle bootstrap modal
-    $('.js-render-modal').on('click', function () {
+
+    KTMenu.init();
+    KTMenu.initHandlers();
+}
+
+$(document).ready(function () {
+    var message = $('#Message').text();
+    if (message !== '') {
+        showSuccessMessage(message);
+    }
+
+    //Handle bootstrap modal
+    $('body').delegate('.js-render-modal', 'click', function () {
         var btn = $(this);
-        var buttonModel = $('#Modal');
-        buttonModel.find('#ModalLabel').text(btn.data('title')); 
+        var modal = $('#Modal');
+
+        modal.find('#ModalLabel').text(btn.data('title'));
+
+        if (btn.data('update') !== undefined) {
+            updatedRow = btn.parents('tr');
+            console.log(updatedRow);
+        }
+
         $.get({
             url: btn.data('url'),
             success: function (form) {
-                buttonModel.find('.modal-body').html(form);
+                modal.find('.modal-body').html(form);
                 $.validator.unobtrusive.parse(modal);
             },
-            error: function (xhr) {
-                swal.fire({
-                    title: "Error",
-                    text: "An error occurred while loading the modal content.",
-                    icon: "error",
-                    customClass: {
-                        confirmButton: 'btn btn-outline  btn-outline-dashed btn-outline-primary- btn-active-light-primary'
-                    }
-                });
+            error: function () {
+                showErrorMessage();
             }
-
         });
-        buttonModel.modal('show');
+
+        modal.modal('show');
     });
-}); 
+});

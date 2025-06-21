@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bookify.Filter;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bookify.Controllers
 {
@@ -15,7 +16,8 @@ namespace Bookify.Controllers
             // TODO: Use ViewModel  
             var categories = _context.Categories.AsNoTracking().ToList();
             return View(categories);  
-        } 
+        }
+        [AjaxOnly]
         public IActionResult Create()
         {
 
@@ -26,20 +28,14 @@ namespace Bookify.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CategoryFormViewModel model)
-        { 
-            if (!ModelState.IsValid)
-            { 
-                return View("_Form",model);
-            }
+        {
+            if (!ModelState.IsValid) return BadRequest();
             var category = new Category { Name = model.Name  };
             _context.Categories.Add(category);
-            _context.SaveChanges();
-
-            TempData["Message"] = "Category created successfully"; 
-
-
-            return  RedirectToAction(nameof(Index));
+            _context.SaveChanges(); 
+             return PartialView("_CategoryRow", category);
         }
+        [AjaxOnly]
         public IActionResult Edit(int id)
         { 
             var category = _context.Categories.FirstOrDefault(c => c.Id == id);
@@ -53,7 +49,7 @@ namespace Bookify.Controllers
                 Id = category.Id,
                 Name = category.Name
             }; 
-            return View("_Form", viewModel);
+            return PartialView("_Form", viewModel);
         }
 
         // This method is used to handle the form submission for editing a category update category
@@ -63,7 +59,7 @@ namespace Bookify.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("_Form", model);
+                return BadRequest();
             }
             var category = _context.Categories.Find(model.Id);
             if (category is null)
@@ -75,7 +71,7 @@ namespace Bookify.Controllers
             _context.Categories.Update(category);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+            return PartialView("_CategoryRow", category);
         }
 
         // This method is used to delete a current category status and revers it
