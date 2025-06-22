@@ -4,6 +4,16 @@
     ViewData["Title"] = "Categories";
 }
 
+@section Styles {
+    <link href="~/lib/animate.css/animate.min.css" rel="stylesheet" /> 
+}
+
+<div class="alert alert-dismissible bg-light-info border border-3 border-dashed d-flex flex-column flex-sm-row ">
+    <span class="svg-icon svg-icon-2hx svg-icon-primary me-4 mb-5 mb-sm-0">...</span>
+
+</div>
+
+
 <div class="card shadow-sm">
     <div class="card-header">
         <h3 class="card-title">
@@ -78,12 +88,20 @@
     </div> 
 </div>
  
+
 @* using AntiForgeryToken security  *@
 @Html.AntiForgeryToken()
+@section Plugins
+{
+<script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+
+}
 @section Scripts {
     <partial name="_ValidationScriptsPartial" /> 
     <script>
         $(document).ready(function () {
+            // Initialize DataTable
+            $('table').DataTable(); 
             $('body').on('click', '.js-toggle-status', function () { 
 
                 var btn = $(this);
